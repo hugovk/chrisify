@@ -41,8 +41,6 @@ func main() {
 
 	baseImage := loadImage(file)
 
-	faces := finder.Detect(baseImage)
-
 	bounds := baseImage.Bounds()
 
 	canvas := canvasFromImage(baseImage)
@@ -58,7 +56,7 @@ func main() {
 		canvas,
 		bounds,
 		face,
-		bounds.Min.Add(image.Pt(-bounds.Max.X/2+face_bounds.Max.X/2, -bounds.Max.Y+int(float64(face_bounds.Max.Y)/1.9))),
+		bounds.Min.Add(image.Pt(-2*bounds.Max.X/3+face_bounds.Max.X/2, -bounds.Max.Y+int(float64(face_bounds.Max.Y)))),
 		draw.Over,
 	)
 
