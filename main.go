@@ -46,7 +46,7 @@ func main() {
 	canvas := canvasFromImage(baseImage)
 
 	face := imaging.Resize(
-		chrisFaces[0],
+		chrisFaces.Random(),
 		bounds.Dx()/3,
 		0,
 		imaging.Lanczos,
