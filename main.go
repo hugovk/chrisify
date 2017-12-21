@@ -16,13 +16,16 @@ import (
 
 var haarCascade = flag.String("haar", "haarcascade_frontalface_alt.xml", "The location of the Haar Cascade XML configuration to be provided to OpenCV.")
 var facesDir = flag.String("faces", "faces", "The directory to search for faces.")
+var bodiesDir = flag.String("bodies", "bodies", "The directory to search for bodies.")
 
 func main() {
 	flag.Parse()
 
 	var chrisFaces FaceList
+	var chrisBodies FaceList
 
 	var facesPath string
+	var bodiesPath string
 	var err error
 
 	if *facesDir != "" {
@@ -37,6 +40,13 @@ func main() {
 		panic(err)
 	}
 	if len(chrisFaces) == 0 {
+		panic("no faces found")
+	}
+	err = chrisBodies.Load(bodiesPath)
+	if err != nil {
+		panic(err)
+	}
+	if len(chrisBodies) == 0 {
 		panic("no faces found")
 	}
 
@@ -71,18 +81,18 @@ func main() {
 	}
 
 	if len(faces) == 0 {
-		face := imaging.Resize(
-			chrisFaces.Random(),
+		body := imaging.Resize(
+			chrisBodies.Random(),
 			bounds.Dx()/3,
 			0,
 			imaging.Lanczos,
 		)
-		face_bounds := face.Bounds()
+		body_bounds := body.Bounds()
 		draw.Draw(
 			canvas,
 			bounds,
-			face,
-			bounds.Min.Add(image.Pt(-2*bounds.Max.X/3+face_bounds.Max.X/2, -bounds.Max.Y+int(float64(face_bounds.Max.Y)))),
+			body,
+			bounds.Min.Add(image.Pt(-2*bounds.Max.X/3+body_bounds.Max.X/2, -bounds.Max.Y+int(float64(body_bounds.Max.Y)))),
 			draw.Over,
 		)
 	}
