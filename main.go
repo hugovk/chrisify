@@ -34,6 +34,12 @@ func main() {
 			panic(err)
 		}
 	}
+	if *bodiesDir != "" {
+		bodiesPath, err = filepath.Abs(*bodiesDir)
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	err = chrisFaces.Load(facesPath)
 	if err != nil {
@@ -47,7 +53,7 @@ func main() {
 		panic(err)
 	}
 	if len(chrisBodies) == 0 {
-		panic("no faces found")
+		panic("no bodies found")
 	}
 
 	file := flag.Arg(0)
